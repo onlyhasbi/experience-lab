@@ -13,6 +13,8 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as PokemonIndexImport } from './routes/pokemon/index'
+import { Route as PokemonIdNameImport } from './routes/pokemon/$idName'
 import { Route as PersonIdImport } from './routes/person/$id'
 
 // Create Virtual Routes
@@ -43,6 +45,16 @@ const PersonIndexLazyRoute = PersonIndexLazyImport.update({
   path: '/person/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/person/index.lazy').then((d) => d.Route))
+
+const PokemonIndexRoute = PokemonIndexImport.update({
+  path: '/pokemon/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PokemonIdNameRoute = PokemonIdNameImport.update({
+  path: '/pokemon/$idName',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PersonIdRoute = PersonIdImport.update({
   path: '/person/$id',
@@ -81,6 +93,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PersonIdImport
       parentRoute: typeof rootRoute
     }
+    '/pokemon/$idName': {
+      id: '/pokemon/$idName'
+      path: '/pokemon/$idName'
+      fullPath: '/pokemon/$idName'
+      preLoaderRoute: typeof PokemonIdNameImport
+      parentRoute: typeof rootRoute
+    }
+    '/pokemon/': {
+      id: '/pokemon/'
+      path: '/pokemon'
+      fullPath: '/pokemon'
+      preLoaderRoute: typeof PokemonIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/person/': {
       id: '/person/'
       path: '/person'
@@ -98,6 +124,8 @@ export const routeTree = rootRoute.addChildren({
   CurrencyLazyRoute,
   FormLazyRoute,
   PersonIdRoute,
+  PokemonIdNameRoute,
+  PokemonIndexRoute,
   PersonIndexLazyRoute,
 })
 
@@ -114,6 +142,8 @@ export const routeTree = rootRoute.addChildren({
         "/currency",
         "/form",
         "/person/$id",
+        "/pokemon/$idName",
+        "/pokemon/",
         "/person/"
       ]
     },
@@ -128,6 +158,12 @@ export const routeTree = rootRoute.addChildren({
     },
     "/person/$id": {
       "filePath": "person/$id.tsx"
+    },
+    "/pokemon/$idName": {
+      "filePath": "pokemon/$idName.tsx"
+    },
+    "/pokemon/": {
+      "filePath": "pokemon/index.tsx"
     },
     "/person/": {
       "filePath": "person/index.lazy.tsx"

@@ -3,6 +3,11 @@ import { Sidebar } from "../layout/sidebar";
 
 export const Route = createRootRoute({
   notFoundComponent: () => <NotFound />,
+  pendingComponent: () => (
+    <div className="flex justify-center items-center min-h-screen">
+      <p>Loading...</p>
+    </div>
+  ),
   component: () => <Root />,
 });
 
@@ -18,6 +23,7 @@ function Root() {
     },
     { label: "Currency", path: "/currency" },
     { label: "Form Issue", path: "/form" },
+    { label: "Pokemon", path: "/pokemon" },
   ];
 
   return (
