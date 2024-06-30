@@ -1,61 +1,56 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent } from 'react';
 
 export const countryConfig = {
   id: {
-    code: "id-ID",
-    currency: "IDR",
-    prefix: "Rp",
+    code: 'id-ID',
+    currency: 'IDR',
+    prefix: 'Rp',
     decimal: 0,
-    separator: ".",
+    separator: '.'
   },
   sg: {
-    code: "en-SG",
-    currency: "SGD",
-    prefix: "S$",
+    code: 'en-SG',
+    currency: 'SGD',
+    prefix: 'S$',
     decimal: 2,
-    separator: ",",
-  },
+    separator: ','
+  }
 };
 
 const rules = {
   sg: /,/g,
-  id: /\./g,
+  id: /\./g
 };
 
-type Region = "sg" | "id";
-const region: Region = "sg";
+type Region = 'sg' | 'id';
+const region: Region = 'sg';
 
 const currencyFormatter = (value: string) =>
   value.replace(/\B(?=(\d{3})+(?!\d))/g, countryConfig[region].separator);
 
-export const parseToInt = (value: string) =>
-  value == "0" ? "0" : parseInt(value, 10);
+export const parseToInt = (value: string) => (value == '0' ? '0' : parseInt(value, 10));
 
 export function currencyFormatValue(value: string) {
   if (!value) {
-    return "";
+    return '';
   }
-  const baseValue = typeof value === "number" ? `${value}` : value;
-  const hasDecimalSeparator = baseValue.includes?.(".");
-  const [currency, fraction] = baseValue.split(".");
-  const formattedCurrency =
-    currency.length > 3 ? currencyFormatter(currency) : currency;
-  return `${formattedCurrency}${hasDecimalSeparator ? "." : ""}${fraction ?? ""}`;
+  const baseValue = typeof value === 'number' ? `${value}` : value;
+  const hasDecimalSeparator = baseValue.includes?.('.');
+  const [currency, fraction] = baseValue.split('.');
+  const formattedCurrency = currency.length > 3 ? currencyFormatter(currency) : currency;
+  return `${formattedCurrency}${hasDecimalSeparator ? '.' : ''}${fraction ?? ''}`;
 }
 
 const valueIsAllowed = (value: string, region: Region): boolean => {
-  if (region === "id") {
+  if (region === 'id') {
     return /^[0-9.]*$/.test(value);
   }
   return /^(?:[0-9]*,?\.?[0-9]{0,2})$/.test(value);
 };
 
-export const clearFormat = (value: string) => value.replace(rules[region], "");
+export const clearFormat = (value: string) => value.replace(rules[region], '');
 
-export const handleCurrencyValue = (
-  value: string,
-  e: ChangeEvent<HTMLInputElement>
-) => {
+export const handleCurrencyValue = (value: string, e: ChangeEvent<HTMLInputElement>) => {
   const element = e.target as HTMLInputElement;
   // eslint-disable-next-line prefer-const
   let { selectionStart: caret, value: currentValue } = element;

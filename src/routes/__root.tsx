@@ -1,5 +1,5 @@
-import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
-import { Sidebar } from "../layout/sidebar";
+import { Link, Outlet, createRootRoute } from '@tanstack/react-router';
+import { Sidebar } from '../layout/sidebar';
 
 export const Route = createRootRoute({
   notFoundComponent: () => <NotFound />,
@@ -8,22 +8,23 @@ export const Route = createRootRoute({
       <p>Loading...</p>
     </div>
   ),
-  component: () => <Root />,
+  component: () => <Root />
 });
 
 function Root() {
   const navigation = [
     {
-      label: "Home",
-      path: "/",
+      label: 'Home',
+      path: '/'
     },
     {
-      label: "Person",
-      path: "/person",
+      label: 'Person',
+      path: '/person'
     },
-    { label: "Currency", path: "/currency" },
-    { label: "Form Issue", path: "/form" },
-    { label: "Pokemon", path: "/pokemon" },
+    { label: 'Currency', path: '/currency' },
+    { label: 'Form Issue', path: '/form' },
+    { label: 'Pokemon', path: '/pokemon' },
+    { label: 'Telegram', path: '/telegram' }
   ];
 
   return (
@@ -46,9 +47,7 @@ function NotFound() {
     <div className="w-full min-h-screen flex items-center justify-center">
       <div className="flex flex-col gap-3 text-center">
         <h2 className="text-2xl font-bold">Page Not Found</h2>
-        <p className="tracking-wider text-xs">
-          The page you trying to open, not found
-        </p>
+        <p className="tracking-wider text-xs">The page you trying to open, not found</p>
       </div>
     </div>
   );

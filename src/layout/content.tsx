@@ -1,6 +1,6 @@
 export const ContentLayout = ({
   isLoading,
-  children,
+  children
 }: {
   isLoading?: boolean;
   children: React.ReactNode;
@@ -8,11 +8,7 @@ export const ContentLayout = ({
   if (isLoading) {
     return (
       <div className="bg-slate-400 w-full min-h-screen flex justify-center items-center ">
-        <img
-          className="animate-spin w-5 h-5"
-          src="/loading.svg"
-          alt="loading-icon"
-        />
+        <img className="animate-spin w-5 h-5" src="/loading.svg" alt="loading-icon" />
       </div>
     );
   }

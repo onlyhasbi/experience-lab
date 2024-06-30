@@ -1,24 +1,24 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ContentLayout } from "@/layout/content";
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ContentLayout } from '@/layout/content';
+import { createLazyFileRoute } from '@tanstack/react-router';
 import {
   CellContext,
   RowData,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import clsx from "clsx";
-import { useFormik } from "formik";
-import { Archive, CircleX } from "lucide-react";
-import { capitalize } from "radash";
-import { useCallback, useEffect, useState } from "react";
-import { NumericFormat } from "react-number-format";
+  useReactTable
+} from '@tanstack/react-table';
+import clsx from 'clsx';
+import { useFormik } from 'formik';
+import { Archive, CircleX } from 'lucide-react';
+import { capitalize } from 'radash';
+import { useCallback, useEffect, useState } from 'react';
+import { NumericFormat } from 'react-number-format';
 
-export const Route = createLazyFileRoute("/form")({
-  component: () => <TableForm />,
+export const Route = createLazyFileRoute('/form')({
+  component: () => <TableForm />
 });
 
 type Product = {
@@ -32,90 +32,81 @@ type Products = {
   data: Array<Product>;
 };
 
-type InputVariant = "text" | "currency" | "number";
+type InputVariant = 'text' | 'currency' | 'number';
 
 function TableForm() {
   const formik = useFormik<Products>({
     initialValues: {
-      data: [],
+      data: []
     },
     onSubmit: (value) => {
       console.log(value);
-    },
+    }
   });
 
   const columnHelper = createColumnHelper<Product>();
 
   const columns = [
     {
-      id: "name",
-      headerStyle: "text-left",
+      id: 'name',
+      headerStyle: 'text-left',
       content: TableCellInput,
       width: 180,
-      type: "text",
+      type: 'text'
     },
     {
-      id: "price",
-      headerStyle: "text-center",
+      id: 'price',
+      headerStyle: 'text-center',
       content: TableCellInput,
       width: 180,
-      type: "currency",
+      type: 'currency'
     },
     {
-      id: "quantity",
-      headerStyle: "text-center",
+      id: 'quantity',
+      headerStyle: 'text-center',
       content: TableCellInput,
       width: 180,
-      type: "number",
+      type: 'number'
     },
     {
-      id: "id",
-      headerStyle: "text-center",
+      id: 'id',
+      headerStyle: 'text-center',
       content: (info: CellContext<Product, string | number>) => (
-        <CircleX
-          size={14}
-          onClick={() => handleDeleteProduct(info.row.original.id)}
-        />
+        <CircleX size={14} onClick={() => handleDeleteProduct(info.row.original.id)} />
       ),
-      width: 50,
-    },
+      width: 50
+    }
   ].map((column) =>
     columnHelper.accessor(column.id as keyof Product, {
       header: (info) => (
-        <div className={clsx("w-full", column?.headerStyle)}>
-          {info.header.id == "id" ? "" : capitalize(info.header.id)}
+        <div className={clsx('w-full', column?.headerStyle)}>
+          {info.header.id == 'id' ? '' : capitalize(info.header.id)}
         </div>
       ),
       cell: column.content,
       enableResizing: false,
       size: column.width,
       meta: {
-        type: column?.type as InputVariant,
-      },
+        type: column?.type as InputVariant
+      }
     })
   );
 
   const handleNewProduct = () => {
     formik.setValues((prev) => ({
-      data: [
-        ...prev.data,
-        { id: +new Date(), name: "", price: 0, quantity: 0 },
-      ],
+      data: [...prev.data, { id: +new Date(), name: '', price: 0, quantity: 0 }]
     }));
   };
 
   const handleDeleteProduct = (id: number) => {
     formik.setValues((prev) => ({
-      data: [...prev.data.filter((product) => product.id !== id)],
+      data: [...prev.data.filter((product) => product.id !== id)]
     }));
   };
 
   const handleUpdateData = useCallback(
     ({ row: rowIndex, column: columnId, value }: UpdateDataProps) => {
-      formik.setFieldValue(
-        `data[${rowIndex}].${columnId}`,
-        columnId != "name" ? +value : value
-      );
+      formik.setFieldValue(`data[${rowIndex}].${columnId}`, columnId != 'name' ? +value : value);
     },
     []
   );
@@ -125,8 +116,8 @@ function TableForm() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     meta: {
-      updateData: handleUpdateData,
-    },
+      updateData: handleUpdateData
+    }
   });
 
   return (
@@ -148,10 +139,7 @@ function TableForm() {
                 >
                   {header.isPlaceholder
                     ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                    : flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
             </tr>
@@ -174,8 +162,8 @@ function TableForm() {
         </tbody>
       </table>
       <div
-        className={clsx("h-[200px] flex justify-center items-center", {
-          hidden: formik.values.data.length > 0,
+        className={clsx('h-[200px] flex justify-center items-center', {
+          hidden: formik.values.data.length > 0
         })}
       >
         <div className="[.&>*]:text-center text-slate-400">
@@ -184,8 +172,8 @@ function TableForm() {
         </div>
       </div>
       <pre
-        className={clsx("text-xs text-slate-500 my-4", {
-          hidden: formik.values.data.length == 0,
+        className={clsx('text-xs text-slate-500 my-4', {
+          hidden: formik.values.data.length == 0
         })}
       >
         {JSON.stringify(formik.values.data, undefined, 2)}
@@ -200,14 +188,14 @@ interface UpdateDataProps {
   value: string | number;
 }
 
-declare module "@tanstack/table-core" {
+declare module '@tanstack/table-core' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
     updateData: ({ row, column, value }: UpdateDataProps) => void;
   }
 }
 
-declare module "@tanstack/react-table" {
+declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
     type: InputVariant;
@@ -218,10 +206,10 @@ const TableCellInput = ({
   column,
   row,
   getValue,
-  table,
+  table
 }: CellContext<Product, string | number>) => {
   const [value, setValue] = useState(getValue());
-  const componentType = column.columnDef.meta?.type || "text";
+  const componentType = column.columnDef.meta?.type || 'text';
 
   useEffect(() => {
     setValue(getValue());
@@ -238,7 +226,7 @@ const TableCellInput = ({
           table.options.meta?.updateData({
             row: row.index,
             column: column.id,
-            value,
+            value
           });
         }}
       />
@@ -254,7 +242,7 @@ const TableCellInput = ({
           table.options.meta?.updateData({
             row: row.index,
             column: column.id,
-            value,
+            value
           })
         }
         customInput={Input}
@@ -274,12 +262,12 @@ const TableCellInput = ({
           table.options.meta?.updateData({
             row: row.index,
             column: column.id,
-            value,
+            value
           })
         }
         customInput={Input}
       />
-    ),
+    )
   };
 
   return componentType ? field[componentType as InputVariant] : null;

@@ -1,20 +1,20 @@
-import { Link, createLazyFileRoute } from "@tanstack/react-router";
+import { Link, createLazyFileRoute } from '@tanstack/react-router';
 import {
   CellContext,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import clsx from "clsx";
-import * as Lucide from "lucide-react";
-import { capitalize } from "radash";
-import { useState } from "react";
-import { ContentLayout } from "../../layout/content";
-import { Button } from "@/components/ui/button";
+  useReactTable
+} from '@tanstack/react-table';
+import clsx from 'clsx';
+import * as Lucide from 'lucide-react';
+import { capitalize } from 'radash';
+import { useState } from 'react';
+import { ContentLayout } from '../../layout/content';
+import { Button } from '@/components/ui/button';
 
-export const Route = createLazyFileRoute("/person/")({
-  component: () => <Person />,
+export const Route = createLazyFileRoute('/person/')({
+  component: () => <Person />
 });
 
 type Person = {
@@ -27,7 +27,7 @@ function Person() {
 
   const handleAddPerson = () => {
     const index = +new Date();
-    setPerson(create<Person>(person, { id: index, name: "Hasbi " + index }));
+    setPerson(create<Person>(person, { id: index, name: 'Hasbi ' + index }));
   };
 
   const handleSelected = (id: number) => {
@@ -46,34 +46,25 @@ function Person() {
   );
 }
 
-function List({
-  data,
-  onSelected,
-}: {
-  data: Array<Person>;
-  onSelected: (id: number) => void;
-}) {
+function List({ data, onSelected }: { data: Array<Person>; onSelected: (id: number) => void }) {
   const columnHelper = createColumnHelper<Person>();
 
   const columns = [
     {
-      id: "name",
-      headerStyle: "text-left",
+      id: 'name',
+      headerStyle: 'text-left',
       content: (info: CellContext<Person, string | number>) => {
         return (
-          <Link
-            className="hover:text-blue-600"
-            to={`/person/${info.row.original.id}`}
-          >
+          <Link className="hover:text-blue-600" to={`/person/${info.row.original.id}`}>
             {info.row.original.name}
           </Link>
         );
       },
-      width: 450,
+      width: 450
     },
     {
-      id: "id",
-      headerStyle: "text-center",
+      id: 'id',
+      headerStyle: 'text-center',
       content: (info: CellContext<Person, string | number>) => (
         <div className="flex justify-center items-center">
           <div className="flex gap-2">
@@ -90,25 +81,25 @@ function List({
           </div>
         </div>
       ),
-      width: 140,
-    },
+      width: 140
+    }
   ].map((column) => {
     return columnHelper.accessor(column.id as keyof Person, {
       header: (info) => (
-        <div className={clsx("w-full", column?.headerStyle)}>
-          {column.id === "id" ? "Action" : capitalize(info.header.id)}
+        <div className={clsx('w-full', column?.headerStyle)}>
+          {column.id === 'id' ? 'Action' : capitalize(info.header.id)}
         </div>
       ),
       cell: (info) => column?.content?.(info) || <div>{info.getValue()}</div>,
       enableResizing: false,
-      size: column.width,
+      size: column.width
     });
   });
 
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
+    getCoreRowModel: getCoreRowModel()
   });
 
   return (
@@ -124,10 +115,7 @@ function List({
               >
                 {header.isPlaceholder
                   ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                  : flexRender(header.column.columnDef.header, header.getContext())}
               </th>
             ))}
           </tr>

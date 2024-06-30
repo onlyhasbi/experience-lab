@@ -1,17 +1,14 @@
 /* eslint-disable no-useless-escape */
-import {
-  currencyFormatValue,
-  handleCurrencyValue
-} from "@/utils/currencyFormatter";
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { ChangeEvent, useState } from "react";
+import { currencyFormatValue, handleCurrencyValue } from '@/utils/currencyFormatter';
+import { createLazyFileRoute } from '@tanstack/react-router';
+import { ChangeEvent, useState } from 'react';
 
-export const Route = createLazyFileRoute("/currency")({
-  component: () => <Currency />,
+export const Route = createLazyFileRoute('/currency')({
+  component: () => <Currency />
 });
 
 function Currency() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(handleCurrencyValue(value, e));

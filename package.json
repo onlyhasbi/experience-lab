@@ -9,7 +9,14 @@
     "start:json-server": "json-server --watch db/db.json --port=3005",
     "start:server": "npm run start:db && npm run start:json-server",
     "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "check:lint": "eslint --ignore-path .gitignore . --ext .js,.jsx,.ts,.tsx",
+    "check:prettier": "prettier --config .prettierrc ./src/ --check",
+    "check:ts": "tsc",
+    "check": "npm run check:lint && npm run check:ts",
+    "format:lint": "eslint --fix ./src/ --ext .ts,.tsx",
+    "format:prettier": "prettier --config .prettierrc ./src/ --write",
+    "formatter": "npm run format:lint && npm run format:prettier",
+    "prepare": "husky",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -25,10 +32,17 @@
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react": "^7.34.3",
     "formik": "^2.4.6",
+    "husky": "^9.0.11",
     "json-server": "^1.0.0-beta.1",
+    "lint-staged": "^15.2.7",
     "lucide-react": "^0.379.0",
     "npx": "^3.0.0",
+    "prettier": "^3.3.2",
     "radash": "^12.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -53,11 +67,22 @@
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,scss}": [
+      "npm run formatter",
+      "git add ."
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

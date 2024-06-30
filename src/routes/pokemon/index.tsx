@@ -1,25 +1,25 @@
-import { config } from "@/config";
-import { ContentLayout } from "@/layout/content";
-import { Response } from "@/types/response";
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { capitalize } from "radash";
-import React, { Suspense } from "react";
-import z from "zod";
+import { config } from '@/config';
+import { ContentLayout } from '@/layout/content';
+import { Response } from '@/types/response';
+import { Link, createFileRoute } from '@tanstack/react-router';
+import { capitalize } from 'radash';
+import React, { Suspense } from 'react';
+import z from 'zod';
 
 const searchParamsSchema = z.object({
   offset: z.number().optional(),
-  limit: z.number().optional(),
+  limit: z.number().optional()
 });
 
-export const Route = createFileRoute("/pokemon/")({
+export const Route = createFileRoute('/pokemon/')({
   validateSearch: searchParamsSchema,
   loaderDeps: ({ search: { limit = 12, offset = 0 } }) => ({ offset, limit }),
   loader: async ({ deps: { offset, limit } }) => {
-    return await fetch(
-      config.url(`pokemon?offset=${offset}&limit=${limit}`)
-    ).then((res) => res.json());
+    return await fetch(config.url(`pokemon?offset=${offset}&limit=${limit}`)).then((res) =>
+      res.json()
+    );
   },
-  component: Pokemon,
+  component: Pokemon
 });
 
 function Pokemon() {
@@ -57,8 +57,8 @@ function Pokemon() {
                 navigate({
                   search: () => ({
                     limit: limit ? limit + 12 : 24,
-                    offset: 0,
-                  }),
+                    offset: 0
+                  })
                 });
               }}
             >

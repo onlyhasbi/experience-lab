@@ -1,6 +1,6 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from '@tanstack/react-router';
 
-export const Route = createLazyFileRoute("/")({
+export const Route = createLazyFileRoute('/')({
   component: () => {
     return (
       <div className="w-full min-h-screen flex justify-center items-center">
@@ -10,5 +10,5 @@ export const Route = createLazyFileRoute("/")({
         </div>
       </div>
     );
-  },
+  }
 });

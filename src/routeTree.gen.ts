@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TelegramIndexImport } from './routes/telegram/index'
 import { Route as PokemonIndexImport } from './routes/pokemon/index'
 import { Route as PokemonIdNameImport } from './routes/pokemon/$idName'
 import { Route as PersonIdImport } from './routes/person/$id'
@@ -45,6 +46,11 @@ const PersonIndexLazyRoute = PersonIndexLazyImport.update({
   path: '/person/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/person/index.lazy').then((d) => d.Route))
+
+const TelegramIndexRoute = TelegramIndexImport.update({
+  path: '/telegram/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PokemonIndexRoute = PokemonIndexImport.update({
   path: '/pokemon/',
@@ -107,6 +113,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PokemonIndexImport
       parentRoute: typeof rootRoute
     }
+    '/telegram/': {
+      id: '/telegram/'
+      path: '/telegram'
+      fullPath: '/telegram'
+      preLoaderRoute: typeof TelegramIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/person/': {
       id: '/person/'
       path: '/person'
@@ -126,6 +139,7 @@ export const routeTree = rootRoute.addChildren({
   PersonIdRoute,
   PokemonIdNameRoute,
   PokemonIndexRoute,
+  TelegramIndexRoute,
   PersonIndexLazyRoute,
 })
 
@@ -144,6 +158,7 @@ export const routeTree = rootRoute.addChildren({
         "/person/$id",
         "/pokemon/$idName",
         "/pokemon/",
+        "/telegram/",
         "/person/"
       ]
     },
@@ -164,6 +179,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/pokemon/": {
       "filePath": "pokemon/index.tsx"
+    },
+    "/telegram/": {
+      "filePath": "telegram/index.tsx"
     },
     "/person/": {
       "filePath": "person/index.lazy.tsx"
