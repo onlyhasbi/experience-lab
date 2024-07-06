@@ -17,12 +17,9 @@ function Currency() {
   };
 
   useEffect(() => {
-    const cells = document.querySelectorAll('.rs-calendar-time-dropdown-cell');
-    cells.forEach((cell) => {
-      const value = parseInt(cell?.textContent || '0');
-      if (value < 10) {
-        cell.textContent = '0' + value;
-      }
+    document.querySelectorAll('.rs-calendar-time-dropdown-cell').forEach((cell) => {
+      cell.textContent =
+        Number(cell.textContent) < 10 ? `0${Number(cell.textContent)}` : cell.textContent;
     });
   }, [isOpen]);
 
