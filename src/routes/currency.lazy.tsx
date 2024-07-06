@@ -1,7 +1,8 @@
 /* eslint-disable no-useless-escape */
 import { currencyFormatValue, handleCurrencyValue } from '@/utils/currencyFormatter';
 import { createLazyFileRoute } from '@tanstack/react-router';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { DatePicker } from 'rsuite';
 
 export const Route = createLazyFileRoute('/currency')({
   component: () => <Currency />
@@ -9,13 +10,36 @@ export const Route = createLazyFileRoute('/currency')({
 
 function Currency() {
   const [value, setValue] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(handleCurrencyValue(value, e));
   };
 
+  useEffect(() => {
+    const cells = document.querySelectorAll('.rs-calendar-time-dropdown-cell');
+    cells.forEach((cell) => {
+      const value = parseInt(cell?.textContent || '0');
+      if (value < 10) {
+        cell.textContent = '0' + value;
+      }
+    });
+  }, [isOpen]);
+
   return (
     <div className="flex flex-col gap-2 p-8">
+      <DatePicker
+        format="HH.mm"
+        placeholder="Select time"
+        calendarDefaultDate={new Date(0, 0, 0, 0, 0)}
+        onOpen={() => setIsOpen(!isOpen)}
+      />
+      <DatePicker
+        format="yyyy-MM-dd"
+        placeholder="Select time"
+        calendarDefaultDate={new Date(0, 0, 0, 0, 0)}
+        onOpen={() => setIsOpen(!isOpen)}
+      />
       {/* <div className="flex gap-2">
         <div className="flex flex-col gap-2">
           <label
