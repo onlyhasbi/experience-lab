@@ -11,7 +11,7 @@
         "./src/*"
       ]
     },
-
+  
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -29,6 +29,6 @@
   "ts-node": {
     "esm": true
 },
-  "include": ["src", "config"],
+  "include": ["src", "config", "src/main.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

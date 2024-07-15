@@ -24,7 +24,8 @@ function Root() {
     { label: 'Currency', path: '/currency' },
     { label: 'Form Issue', path: '/form' },
     { label: 'Pokemon', path: '/pokemon' },
-    { label: 'Telegram', path: '/telegram' }
+    { label: 'Telegram', path: '/telegram' },
+    { label: 'Permissions', path: '/permissions' }
   ];
 
   return (

@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router';
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root';
+import { Route as PermissionsImport } from './routes/permissions';
 import { Route as TelegramIndexImport } from './routes/telegram/index';
 import { Route as PokemonIndexImport } from './routes/pokemon/index';
 import { Route as PokemonIdNameImport } from './routes/pokemon/$idName';
@@ -36,6 +37,11 @@ const CurrencyLazyRoute = CurrencyLazyImport.update({
   path: '/currency',
   getParentRoute: () => rootRoute
 } as any).lazy(() => import('./routes/currency.lazy').then((d) => d.Route));
+
+const PermissionsRoute = PermissionsImport.update({
+  path: '/permissions',
+  getParentRoute: () => rootRoute
+} as any);
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -76,6 +82,13 @@ declare module '@tanstack/react-router' {
       path: '/';
       fullPath: '/';
       preLoaderRoute: typeof IndexLazyImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/permissions': {
+      id: '/permissions';
+      path: '/permissions';
+      fullPath: '/permissions';
+      preLoaderRoute: typeof PermissionsImport;
       parentRoute: typeof rootRoute;
     };
     '/currency': {
@@ -134,6 +147,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
+  PermissionsRoute,
   CurrencyLazyRoute,
   FormLazyRoute,
   PersonIdRoute,
@@ -152,6 +166,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/permissions",
         "/currency",
         "/form",
         "/person/$id",
@@ -163,6 +178,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/permissions": {
+      "filePath": "permissions.tsx"
     },
     "/currency": {
       "filePath": "currency.lazy.tsx"
